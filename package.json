@@ -1,7 +1,7 @@
 {
   "name": "atsa-socket",
   "version": "1.0.0",
-  "description": "Socket IO for ATSA project",
+  "description": "Socket io for ATSA project",
   "main": "index.js",
   "scripts":{
   		"start": "node index.js",
