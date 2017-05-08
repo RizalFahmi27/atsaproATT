@@ -104,5 +104,5 @@ nsp.on('connection', function(socket){
 
 
 http.listen(server_port, function(){
-	 console.log( "Listening on " + server_ip_address + ", port " + server_port );
+	 console.log( "Listening on " + server_port );
 });
