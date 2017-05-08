@@ -32,7 +32,9 @@
     socket.on('em:room-broadcast',function(data){
       roomId = data.roomID;
       var message = message;
-      $('#messages').append($('<li>').text('Room joined : ' +roomId));
+      if(data.status!=0)
+        $('#messages').append($('<li>').text('Room joined : ' +roomId));
+      else $('#messages').append($('<li>').text(message));
     });
     socket.on('em:id-broadcast', function(data){
       userId = data.id;
