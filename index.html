@@ -31,7 +31,7 @@
     });
     socket.on('em:room-broadcast',function(data){
       roomId = data.roomID;
-      var message = message;
+      var message = data.message;
       if(data.status!=0)
         $('#messages').append($('<li>').text('Room joined : ' +roomId));
       else $('#messages').append($('<li>').text(message));
