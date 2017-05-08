@@ -26,14 +26,17 @@
       return false;
     });
     socket.on('em:gps-data', function(msg){
-      $('#messages').append($('<li>').text(msg));
+      var message = msg.message;
+      $('#messages').append($('<li>').text(message));
     });
-    socket.on('em:room-broadcast',function(room){
-      roomId = room;
+    socket.on('em:room-broadcast',function(data){
+      roomId = data.roomID;
+      var message = message;
       $('#messages').append($('<li>').text('Room joined : ' +roomId));
     });
-    socket.on('em:id-broadcast', function(id){
-      userId = id;
+    socket.on('em:id-broadcast', function(data){
+      userId = data.id;
+      var message = data.message;
       $('#messages').append($('<li>').text(userId));
       socket.emit('msg:join-room',{id:userId, room:'000000008dd13cdf'});
     });
