@@ -89,14 +89,14 @@ nsp.on('connection', function(socket){
 	socket.on('msg:gps-connect', function(data){
 		var userID = data.id;
 		var destRoom = data.room;
-		console.log(userID+" is trying to connect to " +room +" GPS");
+		console.log(userID+" is trying to connect to " +destRoom +" GPS");
 		nsp.to(destRoom).emit('em:gps-connect',{id:userID});
 	});
 
 	socket.on('msg:gps-disconnect',function(data){
 		var userID = data.id;
 		var destRoom = data.room;
-		console.log(userID+" is trying to disconnect from " +room +" GPS");
+		console.log(userID+" is trying to disconnect from " +destRoom +" GPS");
 		nsp.to(destRoom).emit('em:gps-disconnect',{id:userID});
 	});
 
@@ -107,7 +107,7 @@ nsp.on('connection', function(socket){
 		var msg = data.message;
 		var userID = data.id;
 		var destRoom = data.room;
-		console.log(userID+" is trying to turn on "+room + " alarm");
+		console.log(userID+" is trying to turn on "+destRoom + " alarm");
 		nsp.to(destRoom).emit('em:alarm-on',{id:userID,message:msg});
 	});
 
@@ -115,7 +115,7 @@ nsp.on('connection', function(socket){
 		var msg = data.message;
 		var userID = data.id;
 		var destRoom = data.room;
-		console.log(userID+" is trying to turn off "+room + " alarm");
+		console.log(userID+" is trying to turn off "+destRoom + " alarm");
 		nsp.to(destRoom).emit('em:alarm-off',{id:userID,message:msg});
 	});
 
