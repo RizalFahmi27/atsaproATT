@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var clients = {};
+var clients = [];
 var rooms = [];
 
 //var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
@@ -21,7 +21,7 @@ app.get('/raspi', function(req, res){
 
 io.on('connection',function(socket){
 	console.log('a user connected : '+socket.id);
-	clients[clients] = socket.id;
+	clients.push(socket);
 })
 
 var nsp2 = io.of('/test');
@@ -35,10 +35,11 @@ var nsp = io.of('/atsa');
 nsp.on('connection', function(socket){
 	console.log('a user connected at atsa namespace : '+socket.id);
 	nsp.to(socket.id).emit('em:id-broadcast',{status:200,id:socket.id,message:"connected"});
-	nsp.to(socket.id).emit('em:gps-connect',"test");
+	//nsp.to(socket.id).emit('em:gps-connect',"test");
 	socket.on('disconnect',function(){
 		console.log('a user disconnected');
-
+		var i = clients.indexOf(socket);
+		clients.splice(i,1);
 	});
 	
 	socket.on('msg:register-raspi',function(data){
@@ -88,14 +89,34 @@ nsp.on('connection', function(socket){
 	socket.on('msg:gps-connect', function(data){
 		var userID = data.id;
 		var destRoom = data.room;
+		console.log(id+" is trying to connect to " +room +" GPS");
 		nsp.to(destRoom).emit('em:gps-connect',{id:userID});
 	});
 
 	socket.on('msg:gps-disconnect',function(data){
 		var userID = data.id;
 		var destRoom = data.room;
-		console.log("gps disconnect");
+		console.log(id+" is trying to disconnect from " +room +" GPS");
 		nsp.to(destRoom).emit('em:gps-disconnect',{id:userID});
+	});
+
+
+	//Alarm section
+
+	socket.on('msg:alarm-on',function(data){
+		var msg = data.message;
+		var userID = data.id;
+		var destRoom = data.room;
+		console.log(id+" is trying to turn on "+room + " alarm");
+		nsp.to(destRoom).emit('em:alarm-on',{id:userID,message:msg});
+	});
+
+	socket.on('msg:alarm-off',function(data){
+		var msg = data.message;
+		var userID = data.id;
+		var destRoom = data.room;
+		console.log(id+" is trying to turn off "+room + " alarm");
+		nsp.to(destRoom).emit('em:alarm-off',{id:userID,message:msg});
 	});
 
 });
