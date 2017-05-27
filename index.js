@@ -5,8 +5,8 @@ var io = require('socket.io')(http);
 var clients = [];
 var rooms = [];
 
-//var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
-var server_port = 3000;
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
+//var server_port = 3000;
 // var server_port = process.env.PORT || 8000
 //var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 //
