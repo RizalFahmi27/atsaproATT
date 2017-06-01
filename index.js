@@ -100,6 +100,7 @@ nsp.on('connection', function(socket){
 		nsp.to(destRoom).emit('em:gps-disconnect',{id:userID});
 	});
 
+	//test
 
 	//Alarm section
 
