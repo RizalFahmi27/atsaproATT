@@ -120,12 +120,12 @@ nsp.on('connection', function(socket){
 		nsp.to(destRoom).emit('em:alarm-off',{id:userID,message:msg});
 	});
 
-	socket.on('msg:alarm-on-once',function(data)){
+	socket.on('msg:free-alarm-on',function(data)){
 		var msg = data.message;
 		var userID = data.id;
 		var destRoom = data.room;
 		console.log(userID+" is attempting to turn off "+destRoom + " alarm");
-		nsp.to(destRoom).emit('em:alarm-on-once',{id:userID,message:msg});
+		nsp.to(destRoom).emit('em:free-alarm-on',{id:userID,message:msg});
 	}
 
 });
