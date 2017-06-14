@@ -86,6 +86,27 @@ nsp.on('connection', function(socket){
 		nsp.to(destRoom).emit('em:gps-data', {status:200,message:msg});
 	});
 
+	socket.on('msg:vibration-data',function(data){
+		var msg = data.message;
+		var destRoom = data.room;
+		console.log("Room "+destRoom + " message : "+msg);
+		nsp.to(destRoom).emit('em:vibration-data', {status:200,message:msg});
+	});
+
+	socket.on('msg:vibration-enable',function(data){
+		var userID = data.id;
+		var destRoom = data.room;
+		console.log(userID+" is attempting to enable " +destRoom +" vibration sensor");
+		nsp.to(destRoom).emit('em:vibration-enable',{id:userID});
+	});
+
+	socket.on('msg:vibration-disable',function(data){
+		var userID = data.message;
+		var destRoom = data.room;
+		console.log(userID +" is attempting to disable " + destRoom + " vibration sensor");
+		nsp.to(destRoom).emit('em:vibration-disable',{id:userID});
+	});
+
 	socket.on('msg:gps-connect', function(data){
 		var userID = data.id;
 		var destRoom = data.room;
