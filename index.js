@@ -101,7 +101,7 @@ nsp.on('connection', function(socket){
 	});
 
 	socket.on('msg:vibration-disable',function(data){
-		var userID = data.message;
+		var userID = data.id;
 		var destRoom = data.room;
 		console.log(userID +" is attempting to disable " + destRoom + " vibration sensor");
 		nsp.to(destRoom).emit('em:vibration-disable',{id:userID});
