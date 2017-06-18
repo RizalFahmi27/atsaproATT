@@ -78,6 +78,29 @@ nsp.on('connection', function(socket){
 	});
 
 
+	// Ignition section
+	socket.on('msg:ignition-data',function(data){
+		var msg = data.message;
+		var destRoom = data.room;
+		console.log("Room "+destRoom + " message : "+msg);
+		nsp.to(destRoom).emit('em:ignition-data',{status:200,message:msg});
+	});
+
+	socket.on('msg:ignition-enable',function(data){
+		var userID = data.id;
+		var destRoom = data.room;
+		console.log(userID+" is attempting to enable " +destRoom +" current sensor");
+		nsp.to(destRoom).emit('em:ignition-enable',{id:userID});
+	});
+
+	socket.on('msg:ignition-disable',function(data){
+		var userID = data.id;
+		var destRoom = data.room;
+		console.log(userID +" is attempting to disable " + destRoom + " current sensor");
+		nsp.to(destRoom).emit('em:ignition-disable',{id:userID});
+	});
+
+
 	// Vibration section
 	socket.on('msg:vibration-data',function(data){
 		var msg = data.message;
