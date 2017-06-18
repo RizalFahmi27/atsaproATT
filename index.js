@@ -77,15 +77,8 @@ nsp.on('connection', function(socket){
 		
 	});
 
-	//GPS section
 
-	socket.on('msg:gps-data', function(data){
-		var msg = data.message;
-		var destRoom = data.room;
-		console.log("Room "+destRoom + " message : "+msg);
-		nsp.to(destRoom).emit('em:gps-data', {status:200,message:msg});
-	});
-
+	// Vibration section
 	socket.on('msg:vibration-data',function(data){
 		var msg = data.message;
 		var destRoom = data.room;
@@ -105,6 +98,15 @@ nsp.on('connection', function(socket){
 		var destRoom = data.room;
 		console.log(userID +" is attempting to disable " + destRoom + " vibration sensor");
 		nsp.to(destRoom).emit('em:vibration-disable',{id:userID});
+	});
+
+	//GPS section
+
+	socket.on('msg:gps-data', function(data){
+		var msg = data.message;
+		var destRoom = data.room;
+		console.log("Room "+destRoom + " message : "+msg);
+		nsp.to(destRoom).emit('em:gps-data', {status:200,message:msg});
 	});
 
 	socket.on('msg:gps-connect', function(data){
