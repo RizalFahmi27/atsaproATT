@@ -80,9 +80,9 @@ nsp.on('connection', function(socket){
 
 	// Engine section
 	socket.on('msg:engine-off',function(data){
-		var msg = data.message;
+		var userID = data.id;
 		var destRoom = data.room;
-		console.log("Room "+destRoom + " message : "+msg);
+		console.log(userID+" is attempting to turn off " +destRoom +" engine");
 		nsp.to(destRoom).emit('em:engine-off',{id:userID});
 	});
 
