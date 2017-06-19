@@ -78,6 +78,15 @@ nsp.on('connection', function(socket){
 	});
 
 
+	// Engine section
+	socket.on('msg:engine-off',function(data){
+		var msg = data.message;
+		var destRoom = data.room;
+		console.log("Room "+destRoom + " message : "+msg);
+		nsp.to(destRoom).emit('em:engine-off',{id:userID});
+	});
+
+
 	// Ignition section
 	socket.on('msg:ignition-data',function(data){
 		var msg = data.message;
