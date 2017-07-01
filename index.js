@@ -87,6 +87,10 @@ nsp.on('connection', function(socket){
 		
 	});
 
+	socket.on('msg:check-room',function(){
+		socket.emit('em:device-online',{status:200, message:rooms.length});
+	});
+
 
 	// Engine section
 	socket.on('msg:engine-off',function(data){
