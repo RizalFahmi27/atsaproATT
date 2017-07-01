@@ -4,6 +4,7 @@ var io = require('socket.io')(http);
 
 var clients = [];
 var rooms = [];
+var roomIndex = {};
 
 //var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
 //var server_port = 3000;
@@ -37,9 +38,15 @@ nsp.on('connection', function(socket){
 	nsp.to(socket.id).emit('em:id-broadcast',{status:200,id:socket.id,message:"connected"});
 	//nsp.to(socket.id).emit('em:gps-connect',"test");
 	socket.on('disconnect',function(){
-		console.log('a user disconnected');
+		console.log('a user disconnected' : + socket.id);
 		var i = clients.indexOf(socket);
 		clients.splice(i,1);
+		for(var key in roomIndex){
+			if(typeof roomIndex[key] != 'undefined' && key == socket.id){
+				rooms.splice(roomIndex[key],1);
+				delete roomIndex[key];
+			}
+		}
 	});
 	
 	socket.on('msg:register-raspi',function(data){
@@ -47,6 +54,8 @@ nsp.on('connection', function(socket){
 		var userID = data.id;
 		console.log('Raspberry registered at atsa namespace : '+room);
 		rooms.push(room);
+		roomIndex[userID] = rooms.length;
+		// rooms[userID] = room;
 		socket.join(room);
 	});
 
@@ -60,6 +69,7 @@ nsp.on('connection', function(socket){
 		var destRoom = data.room;
 		var isJoined = false;
 		for(var i=0;i<rooms.length;i++){
+		// for(var key in rooms){
 			if(rooms[i]==destRoom){
 				socket.join(rooms[i]);
 				console.log("joined room : "+rooms[i]);
