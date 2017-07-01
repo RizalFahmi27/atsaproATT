@@ -38,7 +38,7 @@ nsp.on('connection', function(socket){
 	nsp.to(socket.id).emit('em:id-broadcast',{status:200,id:socket.id,message:"connected"});
 	//nsp.to(socket.id).emit('em:gps-connect',"test");
 	socket.on('disconnect',function(){
-		console.log('a user disconnected' : + socket.id);
+		console.log('a user disconnected : ' + socket.id);
 		var i = clients.indexOf(socket);
 		clients.splice(i,1);
 		for(var key in roomIndex){
