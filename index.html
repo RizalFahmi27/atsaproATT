@@ -17,7 +17,7 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
   $(function () {
-    var socket = io.connect('https://atsanode.herokuapp.com/atsa');
+    var socket = io.connect('http://192.168.43.156:8000/atsa');
     var userId = '';
     var roomId = '';
     $('form').submit(function(){
@@ -41,6 +41,16 @@
       var message = data.message;
       $('#messages').append($('<li>').text(userId));
       socket.emit('msg:join-room',{id:userId, room:'000000008dd13cdf'});
+      socket.emit('msg:check-rooms');
+      socket.emit('msg:check-clients');
+    });
+    socket.on('em:devices-online', function(msg){
+      var message = msg.message;
+      // alert(message);
+    });
+    socket.on('em:clients-online', function(msg){
+    var message = msg.message;
+      alert(message);
     });
   });
 </script>
