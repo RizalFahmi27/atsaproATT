@@ -7,8 +7,8 @@ var rooms = [];
 var roomIndex = {};
 
 //var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
-//var server_port = 3000;
-var server_port = process.env.PORT || 8000
+var server_port = 3000;
+// var server_port = process.env.PORT || 8000
 //var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 //
 app.get('/', function(req, res){
@@ -43,6 +43,7 @@ nsp.on('connection', function(socket){
 		clients.splice(i,1);
 		for(var key in roomIndex){
 			if(typeof roomIndex[key] != 'undefined' && key == socket.id){
+				// console.log(rooms.splice(roomIndex[key],1));
 				rooms.splice(roomIndex[key],1);
 				delete roomIndex[key];
 			}
