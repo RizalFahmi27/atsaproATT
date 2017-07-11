@@ -6,9 +6,9 @@ var clients = [];
 var rooms = [];
 var roomIndex = {};
 
-//var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
 // var server_port = 3000;
-var server_port = process.env.PORT || 8000
+// var server_port = process.env.PORT || 8000
 //var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 //
 app.get('/', function(req, res){
@@ -36,15 +36,16 @@ var nsp = io.of('/atsa');
 nsp.on('connection', function(socket){
 	console.log('a user connected at atsa namespace : '+socket.id);
 	nsp.to(socket.id).emit('em:id-broadcast',{status:200,id:socket.id,message:"connected"});
-	//nsp.to(socket.id).emit('em:gps-connect',"test");
 	socket.on('disconnect',function(){
 		console.log('a user disconnected : ' + socket.id);
 		var i = clients.indexOf(socket);
 		clients.splice(i,1);
 		for(var key in roomIndex){
 			if(typeof roomIndex[key] != 'undefined' && key == socket.id){
-				// console.log(rooms.splice(roomIndex[key],1));
+				var j = rooms.indexOf(key);
+				console.log(key);
 				rooms.splice(roomIndex[key],1);
+				console.log(rooms.length);
 				delete roomIndex[key];
 			}
 		}
@@ -55,7 +56,7 @@ nsp.on('connection', function(socket){
 		var userID = data.id;
 		console.log('Raspberry registered at atsa namespace : '+room);
 		rooms.push(room);
-		roomIndex[userID] = rooms.length;
+		roomIndex[userID] = (rooms.length-1);
 		// rooms[userID] = room;
 		socket.join(room);
 	});
