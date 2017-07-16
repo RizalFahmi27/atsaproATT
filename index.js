@@ -126,6 +126,13 @@ nsp.on('connection', function(socket){
 		nsp.to(destRoom).emit('em:read-engine',{id:userID,channel:channel});
 	});
 
+	socket.on('msg:engine-data',function(data){
+		var msg = data.message;
+		var destRoom = data.room;
+		console.log("Room "+destRoom + " message : "+msg);
+		nsp.to(destRoom).emit('em:engine-data',{status:200,message:msg});
+	});
+
 
 	// Ignition section
 	socket.on('msg:ignition-data',function(data){
