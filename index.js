@@ -102,8 +102,28 @@ nsp.on('connection', function(socket){
 	socket.on('msg:engine-off',function(data){
 		var userID = data.id;
 		var destRoom = data.room;
+		var channel = data.channel;
+		var persistency = data.persistency;
 		console.log(userID+" is attempting to turn off " +destRoom +" engine");
-		nsp.to(destRoom).emit('em:engine-off',{id:userID});
+		nsp.to(destRoom).emit('em:engine-off',{id:userID,channel:channel,persistency:persistency});
+	});
+
+	socket.on('msg:engine-on',function(data){
+		var userID = data.id;
+		var destRoom = data.room;
+		var channel = data.channel;
+		var persistency = data.persistency;
+		console.log(userID+" is attempting to turn on " +destRoom +" engine");
+		nsp.to(destRoom).emit('em:engine-on',{id:userID,channel:channel,persistency:persistency});
+	});
+
+	socket.on('msg:read-engine',function(data){
+		var userID = data.id;
+		var destRoom = data.room;
+		var channel = data.channel;
+
+		console.log("Reading engine status on channel : "+channel );
+		nsp.to(destRoom).emit('em:read-engine',{id:userID,channel:channel});
 	});
 
 
